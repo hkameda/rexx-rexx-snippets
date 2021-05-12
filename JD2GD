@@ -1,0 +1,24 @@
+/* REXX */
+/*****************************************/
+/* CONVERT JULIAN DATE TO GREGORIAN DATE */
+/*****************************************/
+ARG JULIAN /* 引数　YYYYDDD */
+SAY GREGORIAN(JULIAN) /* PROCEDURE CALL */
+EXIT
+
+/* CONVERT JULIAN DATE TO GREGORIAN DATE */
+GREGORIAN: PROCEDURE
+YYYY = LEFT(ARG(1),LENGTH(ARG(1)) -3)
+DDD = RIGHT(ARG(1),3)
+
+T = 0
+IF (YYYY//4 = 0) THEN T = 1
+IF (YYYY//400 > 0) & (YYYY//100 = 0 ) THEN T = 0
+IF (YYYY//400 = 0) & (YYYY//100 = 0 ) THEN T = 1
+
+DD = DDD
+/* SAY T YYYY DDD DD */
+IF DD>(59+T) THEN DD = DD + 2 - T
+MM = ((DD + 91) * 100) % 3055
+DD = DD + 91 -(MM * 3055) % 100
+RETURN YYYY'/'RIGHT(MM - 2,2,'0')'/'RIGHT(DD,2,'0')
